@@ -1,5 +1,12 @@
 body
   background: url('https://miro.medium.com/max/700/1*s-7irvZndWCQCQ8-VeKQNw.jpeg')
+  padding: 0
+  margin: 0
+$text: black
+
+#root
+  padding: 0
+  margin: 0
 .todo
     position: relative
     display: inline-block
@@ -26,12 +33,13 @@ body
 
 .App
   border: 3px solid #2c2b2b
-  width: 100%
+  width: calc( 100% - 6px  )
   height: 800px
-  border-radius: 5px
   background-position: left
   background-size: 68.27% 100%
   background-image: url('/img/Mars.jpg')
+  padding: 0
+  margin: 0
 
 .buttons
   width: 100%
@@ -85,6 +93,7 @@ body
     background: url('/img/krest.png')
     background-size: cover
     background-position: center
+
 
     &:active
       
@@ -173,9 +182,13 @@ body
   order: 2
   color: #ffffff
   background: #F7BA94
+  height: 100%
+  
 
 .options_div
   width: 100%
+  overflow-y: auto
+  height: calc( 100% - 37px - 10px )
   
 .name_todo
   width: 100%
@@ -188,18 +201,26 @@ body
   line-height: 25px
   margin-bottom: 25px
   border-bottom: 1px solid #ffffff59
+  width: calc( 100% - 2px )
+  height: 100%
+  display: flex
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  white-space: normal
 
-  span
-    margin-left: 25px
-  div
+  
+  #type_ToDo
     padding-bottom: 25px
-    margin-left: 25px
+    padding-left: 10px
+    display: flex
+    width: calc( 100% - 25px )
+    height: 25px
 
-.name_subtasks
-  margin-left: 10px
-  font-size: x-large
-  margin-bottom: 10px
-  outline: 0
+    span
+      width: auto
+
+
+
 .subtasks
   list-style-type: none
   padding-bottom: 25px
@@ -207,13 +228,16 @@ body
   
 
 #input_subtasks
+  position: relative
   margin-left: 10px
   border: 0px solid #ffffff
   border-radius: 2px
   padding-left: 5px
+  padding-bottom: 5px
   font-size: 16px
   width: 94%
   outline: 0
+  
 
 .subtasks
   border-bottom: 1px solid #ffffff59
@@ -229,3 +253,322 @@ body
 // .nameArray:focus
 //   z-index: 1
 //   display: none
+
+
+  
+
+
+.container 
+  padding: 0
+  margin: 0
+  outline: 0;
+  font-family: sans-serif
+  margin-left: 5px
+  
+
+
+/*Styling Selectbox*/
+.dropdown 
+  outline: 0;
+  width: auto;
+  min-width: 50px
+  padding-left: 5px
+  padding-right: 5px
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgb(204, 204, 204);
+  transition: all .5s ease;
+  position: relative;
+  font-size: 12px;
+  color: #474747;
+  height: 100%;
+  text-align: center
+
+.dropdown .select 
+    cursor: pointer;
+    display: block;
+    height: 22px
+
+.dropdown .select > i 
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    
+
+.dropdown:hover 
+    box-shadow: 0 0 4px rgb(204, 204, 204)
+
+.dropdown:active 
+    background-color: #f8f8f8
+
+.dropdown.active:hover,
+.dropdown.active 
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    background-color: #f8f8f8
+
+.dropdown.active .select > i 
+    transform: rotate(-90deg)
+
+.dropdown .dropdown-menu 
+    position: absolute;
+    background-color: #fff;
+    width: 100% ;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    overflow: hidden;
+    display: none;
+    max-height: 144px;
+    overflow-y: auto;
+    z-index: 9
+    
+
+.dropdown .dropdown-menu li 
+    transition: all .2s ease-in-out;
+    cursor: pointer
+
+.dropdown .dropdown-menu 
+    padding: 0;
+    list-style: none
+
+.dropdown .dropdown-menu li:hover 
+    background-color: #f2f2f2
+
+.dropdown .dropdown-menu li:active 
+    background-color: #e2e2e2
+
+.subtasks_div
+  width: 100%
+  position: relative
+  z-index: 1
+  -webkit-flex-direction: column; /* Safari */
+  flex-direction: column;
+  li
+    list-style-type: none
+
+#menu_down
+  width: calc( 94% + 5px  )
+  left: 10px
+  top: 59px
+  position: absolute
+  font-size: 16px;
+  color: #ffffff;
+  z-index: 1
+  height: 150px
+  padding-bottom: 5px
+  margin-bottom: 5px
+  overflow: hidden
+  transition: transform .5s linear;
+  
+
+#down_div
+  background: #2C2B2B
+  font-size: 16px
+  padding-left: 5px
+  color: #000000
+  display: block
+  transform: translateY(-30%);
+  transition: transform .5s linear;
+  overflow: hidden
+  z-index: 2
+  border: 0px solid #ffffff
+  border-radius: 2px
+  width: calc( 100% - 5px )
+  height: 80px
+  display: flex;
+  flex-direction: row-reverse
+  flex-wrap: wrap;
+ 
+  
+  
+#down_div.hidden
+  position: relative
+  transform: translateY(-100%);
+  transition: transform .5s linear;
+  z-index: 2
+  
+
+#col_left
+  width: 100%
+
+#add_subtasks
+  background: linear-gradient(rgb(110, 112, 120), rgb(81, 81, 86)) rgb(110, 112, 120)
+  box-shadow: 0 1px rgba(255, 255, 255, 0.2) inset, 0 3px 5px rgba(0, 1, 6, 0.5), 0 0 1px 1px rgba(0, 1, 6, 0.2)
+  padding: 5px
+  cursor: pointer
+  font-size: 14px
+  height: 30px
+  line-height: 15px
+  color: #ffffff
+  margin-right: 10px
+  
+#add_subtasks:active
+  background: linear-gradient(rgb(96, 97, 104), rgb(64, 64, 68)) rgb(98, 100, 107)
+  
+
+
+
+.ul_subtask_item
+  padding: 0
+  margin: 0
+  width: 100%
+  -webkit-flex-direction: column; /* Safari */
+  flex-direction: column;
+  margin-top: 10px
+  
+ 
+
+#subtask_item
+  background: $text
+  padding: 5px
+  min-width: 100px
+  margin-left: 10px
+  max-width: 300px
+  border: 1px solid #201f1f27
+  position: relative
+
+.name_subtasks
+  position: relative
+  margin-left: 10px
+  font-size: x-large
+  margin-bottom: 10px
+  display: -webkit-inline-flex; /* Safari */
+  display: inline-flex;
+
+ 
+.block_notes
+  position: relative
+  z-index: 1
+  width: 99%
+  display: flex
+  flex-direction: column
+  height: auto
+  
+
+
+%block
+  padding: 0.6em 1em
+  appearance: none
+  outline: none
+  line-height: normal
+  border: 1px solid transparent
+  border-radius: 0
+
+.button
+  @extend %block
+  width: 40%
+  margin-left: 55%
+  margin-right: 10px
+  font: 12px
+  line-height: normal
+  cursor: pointer
+  background-color: $text
+  color: white
+  text-transform: uppercase
+  text-align: center
+  letter-spacing: #{(2/14)}em
+
+  &:hover, &:focus, &:active
+    color: white
+    background: black
+  
+
+  &:active
+    position: relative
+    top: 1px
+    left: 1px
+
+.contact-form__input-wrapper 
+  margin-bottom: 0px;
+  align-items: center;
+  display: inline-block;
+  position: relative;
+  width: 100%
+
+contact-form__input-wrapper:after
+  content: '';
+  display: block;
+  z-index: 10;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid white;
+  border-left: 20px solid transparent;
+  right: 1px;
+  bottom: 3px;
+
+
+.contact-form__text 
+  padding: 15px;
+  resize: vertical;
+  font: 16px 'PT Sans',sans-serif
+.contact-form__input 
+  width: 92%;
+  margin-left: 10px
+  height: 30px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border: 1px solid #e2e2e2;
+  background: #ffffff;
+  border-radius: 2px;
+  font: 16px 'PT Sans',sans-serif;
+  -webkit-appearance: none;
+  resize: vertical
+  outline: 0
+  overflow: hidden
+  resize: none
+
+#text_area
+  width: 90%;
+  height: 30px;
+  overflow: hidden;
+  padding: 5px;
+  color: #000000;
+  resize: none;
+  transition: all 1s;
+  
+#text_area_div
+  width: 90%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+  
+
+.ul_note_item
+  list-style-type: none
+  white-space: normal
+  
+#note_item
+  background: $text
+  padding: 5px
+  min-width: 100px
+  margin-left: 10px
+  max-width: 90%
+  border: 1px solid #201f1f27
+  position: relative
+  min-height: 50px
+  
+  max-height: 100%
+
+  div
+    margin-bottom: 15px
+  
+  span
+    position: absolute
+    font-size: 10px
+    left: 5px
+    bottom: 0
+    margin-top: 10px
+
+#div_note
+  max-width: 350px
+  height: auto
+  max-height: 100%
+  word-wrap: break-word
