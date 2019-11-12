@@ -7,6 +7,11 @@ import $ from 'jquery';
 import startTicking from './time/timer';
 import logClockTime from './time/timer';
 import setTime from './time/timer';
+import access_list from '../img/access_list.svg'
+import delete_list from '../img/delete_list.svg'
+import list_noname from '../img/list_noname.svg'
+import list_priority from '../img/list_priority.svg'
+import list_defer from '../img/list_defer.svg'
 
 let dragObject = {};
 let toDoListDo = 0;
@@ -30,12 +35,67 @@ class Windows extends React.Component {
     this.inputNote = this.inputNote.bind(this)
     this.changeText = this.changeText.bind(this)
     this.textarea_note = this.textarea_note.bind(this)
+    this.deleteList = this.deleteList.bind(this)
+    this.set_priority = this.set_priority.bind(this)
+    this.select_priority = this.select_priority.bind(this)
+    this.access_list = this.access_list.bind(this)
+    this.task_click = this.task_click.bind(this)
     this.props.arrayToDo
     this.props.toDoList
+    this.props.sort
     this.props.OptionsNumber
+    this.props.Sort_list
     this.substask_text = ''
     this.note_text = ''
     // this.createToDo = this.createToDo.bind(this)
+  }
+
+  task_click(event){
+    let item = event.target
+    let this_item = item.parentNode
+    alert(item.parentNode.childNodes[1].value)
+    let key = item.getAttribute('key7')
+    let day = item.parentNode.childNodes[1].value
+    let priority
+    if(day > 0){
+      priority = 4
+    }
+    else{
+      priority = 2
+    }
+    this.props.setPriority(priority,key, day)
+    item.parentNode.childNodes[1].value = ''
+    this_item.style.display = (this_item.style.display == 'block') ? this_item.style.display = 'none': this_item.style.display = 'block'
+  }
+
+  access_list(event){
+    let key = event.target.getAttribute('key5')
+    alert(key)
+    event.stopPropagation()
+    this.props.accept_list(key)
+   
+  }
+
+  select_priority(event){
+    let item = event.target
+    let key = event.target.parentNode.getAttribute('key4')
+    if(item.textContent == 'Задать высокий приоритет' ){
+      this.props.setPriority(1, key  )
+    }
+    else if(item.textContent == 'Задать средний приоритет' ){
+      this.props.setPriority( 2, key  )
+    }
+    else if(item.textContent == 'Задать низкий приоритет'){
+      this.props.setPriority( 3, key  )
+    }
+    item.parentNode.parentNode.style.display = 'none'
+    event.stopPropagation()
+  }
+
+  set_priority(event){
+    console.log()
+    let this_item = event.target.parentNode.childNodes[1]
+    this_item.style.display = (this_item.style.display == 'block') ? this_item.style.display = 'none': this_item.style.display = 'block'
   }
 
   textarea_note(event){
@@ -215,42 +275,81 @@ function createDo(){
 
   showDo(event){
     let visibleToDo = document.getElementById('visibleToDo')
-    let parentItem = event.target.closest('LI') //родительский элемент
-    let this_item = parentItem.childNodes[1]
+    let div_visible = event.currentTarget
+    let parentItem = div_visible.childNodes[0].lastChild // картинка стрелки
+    let this_item = div_visible.parentNode.childNodes[1]
+    parentItem.src = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? parentItem.src = arrow_down : parentItem.src = arrow_up
+    this_item.style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'flex'
+    // this.item.childNodes[0].style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
+    // this.item.childNodes[0].style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
+    // console.log(this_item)
+    
+    // parentItem.src = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? parentItem.src = arrow_down : parentItem.src = arrow_up
+    // this_item.style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
+
+  }
+
+  deleteList(event){
+    event.stopPropagation()
+    this.props.deleteToDo(event.target.getAttribute('key6') )
+    
     
   }
   
   render(){
-    const arrayToDo = this.props.arrayToDo
+    const Sort_list = this.props.Sort_list
+    let arrayToDo = this.props.arrayToDo
+    
+    if(this.props.sort == 2){
+      arrayToDo = arrayToDo.sort((a,b) => a.priority - b.priority)
+    }
+    
     const toDoList = this.props.toDoList
     const OptionsNumber = this.props.OptionsNumber
-    const array_subtask = arrayToDo[OptionsNumber].subtasks
+   
+      const array_subtask = arrayToDo[OptionsNumber].subtasks
     const array_notes = arrayToDo[OptionsNumber].notes
-    
- 
-    
+
     return (
       <div  className='mainWindow'   id='coordinates'>
         <ul className='ul'>
-          
           {/* <li className='li'>
           <a className="todo" ><span>1.</span>Это моё дело <img src={logo_krest}/></a>
             </li> */}
-          {arrayToDo.map((elem, key) => <li className='li' key2={key} onClick={this.showOptions}><div >
+          {arrayToDo.map((elem, key) => <li className='li' key2={key} onClick={this.showOptions}><div onClick={this.showDo} >
           <a className="todo" ><span>{key + 1 + '. '}</span>
           {/* <span className='nameArray'>{elem.name_todo}</span> */}
           <input placeholder='Какое дело?' autoComplete='off' id='input_Do' key3={key} onChange={this.changeName} value={elem.name_todo} onKeyPress={this.enterInput}    required ></input><span></span>
-          <img key1={key} onClick={this.showDo} src={arrow_down}/></a>
+          <img key1={key} src={arrow_up}/></a>
           {/* <img key1={key} onClick={this.closeDO} src={logo_krest}/></a> */}
             </div>
-            <div id='visibleToDo' key={key}>
-              <span>Подзадачи</span>
-              <ul>
-                {/* <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li> */}
-              </ul>
+            <div id='visibleToDo' key={key}> 
+              <div className='left_side'>
+              задача отложена на: дата + кол-во дней {} <br/>
+              приоритет: {arrayToDo[key].priority} <br/>
+              подзадачи: сортировка по дате добавления, иконки выполнено и не выполнено 
+              {(arrayToDo[key].haveSubtask) ? arrayToDo[key].subtasks.map((elem,key) => 
+              <li key={key} id='subtask_item' >{elem.text}<span>{elem.time}</span></li>) : ''}
+              </div>
+              <div className='right_side' >
+              <span id='defer_task' ><img onClick={this.set_priority}  alt='отложить_задачу' title='Отложить задачу' src={list_defer}></img>
+              <div id='task_menu' >
+                Задача отложена на 
+                 <input></input> дней <br/>
+                 <button onClick={this.task_click} key7={key}>Отложить</button>
+              </div>
+              </span>
+              <span id='priority_span'><img onClick={this.set_priority} alt='приоритет' title='Задать приоритет' src={list_priority}></img>
+              <div id='priority_menu'>
+                <ul onClick={this.select_priority} key4={key}>
+                  <li>Задать высокий приоритет</li>
+                  <li>Задать средний приоритет</li>
+                  <li>Задать низкий приоритет</li>
+                </ul>
+              </div></span>
+            <span> <img key5={key} onClick={this.access_list} alt='завершить' title='Завершить дело' src={access_list}></img></span>
+            <span> <img key6={key} onClick={this.deleteList}  alt='удалить' title='Удалить дело' src={delete_list}></img></span>
+              </div>
             </div>
             </li>)}
         </ul>
@@ -324,7 +423,6 @@ function createDo(){
           <textarea id="text_area" rows="2" className="contact-form__input contact-form__text"
            name="text" onKeyUp={this.textarea_note} onChange={this.inputNote}  placeholder="Введите ваше сообщение"></textarea>
           <div id="text_area_div"></div>
-          <div className="contact-form__error contact-form__error_text"></div>
           </div>
           <button id='button' className='button' onClick={this.add_note} >Отправить</button>
           <div id='div_note'>
@@ -339,7 +437,7 @@ function createDo(){
           <div id='menu_down'>
             <div id='down_div'>
             <div id='col_left'><br/></div>
-            <a id='add_subtasks' onClick={this.add_subtask} >Добавить <br/> подзадачу</a>
+            <button id='button' className='button' onClick={this.add_subtask} >Отправить</button>
             </div>
           </div>
           <div >
