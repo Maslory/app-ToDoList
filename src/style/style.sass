@@ -150,6 +150,7 @@ body
   background: url('https://miro.medium.com/max/700/1*s-7irvZndWCQCQ8-VeKQNw.jpeg')
   padding: 0
   margin: 0
+  
  
 
 #root
@@ -161,7 +162,7 @@ body
   width: calc( 100% - 6px  )
   height: 800px
   background-position: left
-  background-size: 68.27% 100%
+  
   background-image: url('/img/Mars.jpg')
   padding: 0
   margin: 0
@@ -347,7 +348,7 @@ body
               border: 1px solid #2c2b2b
               border-radius: 2px
               width: 120px
-              bottom: -115px
+              bottom: -55px
               left: 45px
               display: none
               z-index: 100
@@ -378,8 +379,8 @@ body
               background: #F7BA94
               display: none
               justify-content: center
-              bottom: -150px
-              left: 90px
+              bottom: -105px
+              left: 35px
               padding: 0
               margin: 0
               color: #ffffff
@@ -415,7 +416,7 @@ body
       border-left: 1px solid #201f1f
 
       .name_todo
-        width: 100%
+        width: calc(100% - 10px)
         margin-left: 10px
         font-size: xx-large
         margin-bottom: 10px
@@ -512,7 +513,9 @@ body
                     max-height: 144px;
                     overflow-y: auto;
                     z-index: 9
-                    
+
+              
+    
 
                     li 
                         transition: all .2s ease-in-out;
@@ -527,6 +530,8 @@ body
                 .dropdown-menu 
                     padding: 0;
                     list-style: none
+
+                
 
           .block_notes
             position: relative
@@ -584,7 +589,7 @@ body
 
             .button
               @extend %block
-              margin-left: 70.3%
+              margin-left: calc( 99% - 126.16px)
               font: 12px
               line-height: normal
               cursor: pointer
@@ -637,6 +642,13 @@ body
                     left: 5px
                     bottom: 0
                     margin-top: 10px
+                  
+                  img
+                    position: absolute
+                    top: 5px
+                    right: 5px
+                    width: 20px
+                    height: 20px
 
           .subtasks_div
             width: 100%
@@ -744,7 +756,8 @@ body
                   position: relative
                             
 
-              
+
+                
   
 
 

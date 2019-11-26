@@ -2,24 +2,31 @@ import React from 'react';
 import '../style/style.sass';
 import Buttons from './buttons'
 import Windows from './windows'
-import logo_krest from '../img/krest.png'
+// import logo_krest from '../img/krest.png'
 // import logClockTime from './time/timer'
 // import startTicking from './time/timer'
+import { connect } from "react-redux";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             toDoList: 0,
-            arrayToDo: [{name_todo:'', subtasks:[],term:'Когда?',duration:'Сколько?',
+            arrayToDo: [
+                {name_todo:'', subtasks:[],term:'Когда?',duration:'Сколько?',
             notes:[], type:'Какой?', haveSubtask: false,
-            haveNote: false, priority: 2, day_of_number: 0},], // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
+            haveNote: false, priority: 2, day_of_number: 0},
+                {name_todo:'', subtasks:[],term:'Когда?',duration:'Сколько?',
+            notes:[], type:'Какой?', haveSubtask: false,
+            haveNote: false, priority: 2, day_of_number: 0}
+            
+            ], // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
             OptionsNumber: 0,
             List_access: [],
             Sort_list: [],
             sort: 1    // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
         };
-        this.changeDoA = this.changeDoA.bind(this);
+        this.changeDoA = this.changeDoA.bind(this); //
         this.changeDoD = this.changeDoD.bind(this);
         this.changeType = this.changeType.bind(this)
         this.changeNotes = this.changeNotes.bind(this)
@@ -190,14 +197,17 @@ changeSubtasks(OptionsNumber, text_subtask, time){
         
         return (
             <div className="App"  >
-                <Buttons toDoList={this.state.toDoList} onClickDoAdd={this.changeDoA} arrayToDo={this.state.arrayToDo} Sort_list={this.state.Sort_list} sort_todo={this.sort_todo} />
+                <Buttons 
+                toDoList={this.state.toDoList} onClickDoAdd={this.changeDoA} arrayToDo={this.state.arrayToDo} Sort_list={this.state.Sort_list} sort_todo={this.sort_todo} 
+                />
                 <Windows toDoList={this.state.toDoList} changeNameDo={this.changeNameDo} changeType={this.changeType} changeSubtasks={this.changeSubtasks} sort={this.state.sort}
                 changeNote={this.changeNote} deleteToDo = {this.deleteToDo} setPriority = {this.setPriority} accept_list = {this.accept_list} Sort_list={this.state.Sort_list}
-                 onClickDoDelete={this.changeDoD} arrayToDo={this.state.arrayToDo} OptionsNumber={this.state.OptionsNumber} openOptions={this.openOptions} />
+                 onClickDoDelete={this.changeDoD} arrayToDo={this.state.arrayToDo} OptionsNumber={this.state.OptionsNumber} openOptions={this.openOptions} 
+                 />
              <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
             </div>
         );
     }
 }
 
-export default App;
+export default connect()(App);

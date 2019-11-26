@@ -5,6 +5,8 @@ import add_list from '../img/add_list.svg'
 import notepad from '../img/notepad.svg'
 import sort_todo from '../img/sort_todo.svg'
 import Sort_by_property from './time/Sort_by_property'
+import {connect} from "react-redux"
+import { add_case, sort_case, selected_case} from './actions/actions';
 
 let toDo = 0;
 
@@ -21,14 +23,14 @@ class Buttons extends React.Component  {
   }
 
   select_type_sort(event){
-    let list = [...this.props.arrayToDo]
+    let list = [...this.props.colors]
     if(event.target.textContent == 'Сортировать по приоритету'){
       let sort_array = list.sort((a,b) => a.priority - b.priority)
-      this.props.sort_todo(sort_array, 2)
+      this.props.sort(sort_array, 2)
       
     }
     else if(event.target.textContent == 'Сортировать по дате добавления'){
-      this.props.sort_todo(list, 1)
+      this.props.sort(list, 1)
     }
     let hide_menu = event.target.parentNode.parentNode
     hide_menu.style.display = 'none'
@@ -57,15 +59,20 @@ class Buttons extends React.Component  {
   }
 
   addDo() {
-    if(this.props.toDoList == 8) return;
-    this.props.onClickDoAdd(this.changeInput());
+    
+    if(this.props.OptionsNumber == -1){
+      this.props.selectedCase(0)
+    }
+    this.props.addNewCase('')
+    // if(this.props.toDoList == 8) return;
+    // this.props.onClickDoAdd(this.changeInput());
     
     
   }
 
-componentDidUpdate(){
-  console.log(this.props.arrayToDo)
-}
+// componentDidUpdate(){
+//   console.log(this.props.colors)
+// }
 
 changeInput(){
   let input_ToDo = document.getElementById('input_ToDo')
@@ -97,4 +104,20 @@ changeInput(){
   
 }
 
-export default Buttons;
+
+function mapStateToProps(state,store, getState) {
+  return {
+    colors: state.array_case,
+    OptionsNumber: state.select_case
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addNewCase: name_todo => dispatch(add_case(name_todo)) ,
+    sort: (array, type_sort) => dispatch(sort_case(array,type_sort)),
+    selectedCase: numberCase => dispatch(selected_case(numberCase)),
+  };
+}
+
+export default  connect(mapStateToProps,mapDispatchToProps)(Buttons);

@@ -80,11 +80,11 @@ import React from 'react';
 
 function logClockTime() {
     // Получение строки показания часов в гражданском формате
-    var time = getClockTime();
+    let time = getClockTime();
     // Очистка показаний консоли и вывод показания часов
-    console.clear();
-    console.log(time);
-    return(time)
+    // console.clear();
+    return time
+    
 }
 function getClockTime() {
     // Получение текущего времени
@@ -117,10 +117,10 @@ function getClockTime() {
         time.seconds = "0" + time.seconds;
     }
     // Придание показаниям часов формата строки "hh:mm:ss tt"
-    return time.hours + ":"
+    return (time.hours + ":"
         + time.minutes + ":"
         + time.seconds + " "
-        + time.ampm;
+        + time.ampm);
 }
 
 
