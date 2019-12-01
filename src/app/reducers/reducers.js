@@ -217,6 +217,16 @@ export const sort = (state = 1, action) => {
     }
 }
 
+export const select_item = (state = -1, action) => {
+    switch(action.type){
+        case C.SELECT_ITEM:
+            return action.id
+
+        default:
+            return state
+    }
+}
+
 
 
 function mapStateToProps(state,store, getState) {

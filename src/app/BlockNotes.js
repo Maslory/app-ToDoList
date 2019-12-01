@@ -64,7 +64,7 @@ const BlockNotes = (props) => {
 
     return(
         <div className='block_notes'>
-<div>{props.nameComponent}</div>
+<div className='block_note__name'>{props.nameComponent}</div>
              <div className="contact-form__input-wrapper">
                <textarea id="text_area" rows="2" className="contact-form__input contact-form__text"
                  name="text" onKeyUp={textarea_note} onChange={inputNote} placeholder="Введите ваше сообщение"></textarea>

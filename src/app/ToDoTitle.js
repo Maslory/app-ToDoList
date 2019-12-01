@@ -8,38 +8,49 @@ import { connect } from "react-redux";
 const ToDoTitle = (props) => {
   let elem = props.elem3
   let key = props.key3
+  let selectItemId = props.selectItemId
+  
   
   const showDo = event => {
     console.log(props.OptionsNumber)
-    
     let visibleToDo = document.getElementById("visibleToDo");
     let div_visible = event.currentTarget;
-    let parentItem = div_visible.childNodes[0].lastChild; // картинка стрелки
+    let parentItem = div_visible.childNodes[0].firstChild; // картинка стрелки
     let this_item = div_visible.parentNode.childNodes[1];
-    parentItem.src =
-      parentItem.src == "http://localhost:7700/" + arrow_up
-        ? (parentItem.src = arrow_down)
-        : (parentItem.src = arrow_up);
-    this_item.style.display =
-      parentItem.src == "http://localhost:7700/" + arrow_up
-        ? (this_item.style.display = "none")
-        : (this_item.style.display = "flex");
+    
+    
+    this_item.style.display = (this_item.style.display == 'flex')
+    ? this_item.style.display = "none"
+    : this_item.style.display = "flex"
+    parentItem.classList.toggle('hidden');
   };
 
   const changeName = e => {
     console.log(e.target.value, e.target.getAttribute("key3"));
+    let item = -1;
+    let array = props.colors;
+    function logArrayElements(element, index, array) {
+     if (element.id == selectItemId){
+      item = index;
+     }
+    }
+    array.forEach(logArrayElements);
     // props.changeNameDo(event.target.getAttribute("key3"), e.target.value);
-    props.changeNameCase(props.colors[e.target.getAttribute("key3")].id , e.target.value)
+    props.changeNameCase(props.colors[item].id , e.target.value)
   };
+
+
+
+
 
  
 
   return (
    
-    <div onClick={showDo}>
+    <div onClick={showDo} className='titleDiv'>
   
       <a className="todo">
-        <span>{key + 1 + ". "}</span>
+      <img key1={key} className='marker' src={arrow_up} />
         <input
           placeholder="Какое дело?"
           autoComplete="off"
@@ -51,7 +62,7 @@ const ToDoTitle = (props) => {
           required
         ></input>
         {/* <span>{props.colors[key].name_todo}</span> */}
-        <img key1={key} src={arrow_up} />
+        
       </a>
     </div>
   );
@@ -61,7 +72,8 @@ const ToDoTitle = (props) => {
 function mapStateToProps(state,store, getState) {
   return {
     colors: state.array_case,
-    OptionsNumber: state.select_case
+    OptionsNumber: state.select_case,
+    selectItemId: state.select_item
   };
 }
 

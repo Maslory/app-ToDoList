@@ -106,4 +106,9 @@ export const change_subtasks = (id, subtasks) => (
     }
 )
 
-
+export const selectItem = (id) => (
+    {
+        type: C.SELECT_ITEM,
+        id: id
+    }
+)

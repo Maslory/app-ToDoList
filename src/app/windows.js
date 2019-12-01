@@ -16,6 +16,13 @@ import ToDoList from './ToDoList'
 import CaseSettings from './CaseSettings';
 import {connect} from "react-redux"
 import Options from './Options';
+import plus from '../img/plus_thin.svg'
+import shevron_right from '../img/arrow_right.svg'
+import accept_mark from '../img/priority/accept_mark.svg'
+import time_mark from '../img/priority/time_mark.svg'
+import date_mark from '../img/priority/date_mark.svg'
+import priority_mark from '../img/priority/priority_mark.svg'
+import {sort_case, complete_case, selected_case} from './actions/actions';
 
 let dragObject = {};
 let toDoListDo = 0;
@@ -46,6 +53,8 @@ class Windows extends React.Component {
     this.access_list = this.access_list.bind(this)
     this.task_click = this.task_click.bind(this)
     this.sort = this.sort.bind(this)
+    this.showFilters = this.showFilters.bind(this)
+    this.sortArrayToDo = this.sortArrayToDo.bind(this)
     this.props.arrayToDo
     this.props.toDoList
 
@@ -56,6 +65,74 @@ class Windows extends React.Component {
     this.note_text = ''
     
     // this.createToDo = this.createToDo.bind(this)
+  }
+
+
+  sortArrayToDo(event){
+      let list = [...this.props.colors]
+      if(event.currentTarget.textContent == 'По приоритету'){
+        let sort_array = list.sort((a,b) => a.priority - b.priority)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array, 2)
+        
+      }
+      else if(event.currentTarget.textContent == 'Дата добавления'){
+        this.props.sort(list, 1)
+      }
+      else if(event.currentTarget.textContent == 'Выполненные'){
+        if(this.props.list_access.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(this.props.list_access, 3)
+      }
+      else if(event.currentTarget.textContent == 'Высокий приоритет'){
+        let sort_array = list.filter(elem => elem.priority == 1)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 4)
+      }
+      else if(event.currentTarget.textContent == 'Средний приоритет'){
+        let sort_array = list.filter(elem => elem.priority == 2)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 5)
+      }
+      else if(event.currentTarget.textContent == 'Низкий приоритет'){
+        let sort_array = list.filter(elem => elem.priority == 3)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 6)
+      }
+      else if(event.currentTarget.textContent == 'Отложенные'){
+        let sort_array = list.filter(elem => elem.priority == 4)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 7)
+      }
   }
 
   task_click(event) {
@@ -155,7 +232,6 @@ class Windows extends React.Component {
   inputSubtask() {
     let down_div = document.getElementById('down_div')
     down_div.classList.remove('hidden');
-    // menu_down.style.marginBottom = '20px'
   }
 
   select_type(event) {
@@ -163,7 +239,6 @@ class Windows extends React.Component {
   }
 
   changeName(e) {
-    // console.log(e.target.value, event.target.getAttribute('key3'))
     this.props.changeNameDo(event.target.getAttribute('key3'), e.target.value)
   }
 
@@ -187,45 +262,13 @@ class Windows extends React.Component {
     }
   }
 
-
-
-
-  componentDidMount() {
-    // let down_div = document.getElementById('down_div')
-    // down_div.classList.add('hidden');
-    // $('.dropdown').click(function () {
-    //   $(this).attr('tabindex', 1).focus();
-    //   $(this).toggleClass('active');
-    //   $(this).find('.dropdown-menu').slideToggle(300);
-    // });
-    // $('.dropdown').focusout(function () {
-    //   $(this).removeClass('active');
-    //   $(this).find('.dropdown-menu').slideUp(300);
-    // });
-    // $('.dropdown .dropdown-menu li').click(function () {
-    //   $(this).parents('.dropdown').find('span').text($(this).text());
-    //   $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
-    // });
-    /*End Dropdown Menu*/
-
-
-    // $('.dropdown-menu li').click(function () {
-    // var input = '<strong>' + $(this).parents('.dropdown').find('input').val() + '</strong>',
-    //   msg = '<span class="msg">Hidden input value: ';
-    // $('.msg').html(msg + input + '</span>');
-    // });
-  }
-
-
   componentDidUpdate() {
     const toDoList = this.props.toDoList;
-    // console.log('toDoList:' + toDoList);
     toDoListDo += 1;
     for (let i = 0; i < Fixed.length; i++) {
       if (toDoList == i && Fixed[i] == false) {
         Fixed[i] = true;
         createDo();
-        // console.log('Do:'+toDoListDo);
         if (toDoList < toDoListDo) {
           Fixed[i] = false;
         }
@@ -247,27 +290,16 @@ class Windows extends React.Component {
       button1.className = 'closeWindow';
       div.className = 'draggable';
       header.id = 'elementMove';
-      // header.style.position = 'absolute';
       const input = document.createElement("textarea");
-      // input.style.position = 'absolute';
       input.className = 'textBox';
       input.placeholder = 'Ну что... Какие дела?';
-      // coordinates.appendChild(div);
-      // div.appendChild(header);
-      // header.appendChild(button1);
-      // div.appendChild(input);
 
       FixedList = toDoList;
       button1.onclick = function (e) {
         const qw = e.target.parentNode;
         toDoListDo += 1;
         FixedList -= 1;
-        // try{
-        // document.body.removeChild(qw.parentNode);
-        // }
-        // catch{
-        //   coordinates.removeChild(qw.parentNode);
-        // }
+        
       }
     }
   }
@@ -282,20 +314,11 @@ class Windows extends React.Component {
     let this_item = div_visible.parentNode.childNodes[1]
     parentItem.src = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? parentItem.src = arrow_down : parentItem.src = arrow_up
     this_item.style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none' : this_item.style.display = 'flex'
-    // this.item.childNodes[0].style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
-    // this.item.childNodes[0].style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
-    // console.log(this_item)
-
-    // parentItem.src = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? parentItem.src = arrow_down : parentItem.src = arrow_up
-    // this_item.style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none': this_item.style.display = 'block'
-
   }
 
   deleteList(event) {
     event.stopPropagation()
     this.props.deleteToDo(event.target.getAttribute('key6'))
-
-
   }
   sort(){
     if(this.props.type_sort == 2){
@@ -304,30 +327,120 @@ class Windows extends React.Component {
     }
     else if(this.props.type_sort == 1){
       return this.props.colors
+    } 
+    else if(this.props.type_sort == 3){
+      return this.props.list_access
     }
-    
+    else if(this.props.type_sort == 4){
+      let list = [... this.props.colors]
+      let sort_array = list.filter(elem => elem.priority == 1)
+      return sort_array
+    }
+    else if(this.props.type_sort == 5){
+      let list = [... this.props.colors]
+      let sort_array = list.filter(elem => elem.priority == 2)
+      return sort_array
+    }
+    else if(this.props.type_sort == 6){
+      let list = [... this.props.colors]
+      let sort_array = list.filter(elem => elem.priority == 3)
+      return sort_array
+    }
+    else if(this.props.type_sort == 7){
+      let list = [... this.props.colors]
+      let sort_array = list.filter(elem => elem.priority == 4)
+      return sort_array
+    }
+  }
+
+  showFilters(event){
+    let shevronRight = document.getElementById('shevron_right')
+    let filters = document.getElementById('list_filter')
+    shevronRight.classList.toggle('hidden');
+    filters.classList.toggle('hidden')
   }
 
   render() {
     const Sort_list = this.props.Sort_list
     let arrayToDo = this.props.colors
 
-    // if (this.props.sort == 2) {
-    //   arrayToDo = arrayToDo.sort((a, b) => a.priority - b.priority)
-    // }
-
     const toDoList = this.props.toDoList
     const number = this.props.number
     let arraySort = this.sort()
     
-
     console.log('111', arraySort)
-    // const array_subtask = arrayToDo[number].subtasks
-    // const array_notes = arrayToDo[number].notes
     
     return (
       <div className='mainWindow' id='coordinates'>
-        {/* <ToDoList arrayToDo={arrayToDo} array_subtask={array_subtask} array_notes={array_notes} OptionsNumber={OptionsNumber} /> */}
+        {console.log(this.props.list_access)}
+        <div className="left_menu">
+            <div className="left_menu__right_side">
+              <ul className='top_filters'>
+                <li>Входящие</li>
+                <li>Сегодня</li>
+                <li>Следующие 7 дней</li>
+              </ul>
+              <div className='button_filters' onClick={this.showFilters} >
+                  <img src={shevron_right} id='shevron_right'  />
+                  Фильтры 
+                  </div>
+              <div className='filters'>
+                  <ul id='list_filter' >
+                  <li onClick={this.sortArrayToDo} className='list_filter__item'>
+                  <img  src={date_mark} width='20' height='20' />
+                     Дата добавления
+                     </li> 
+                  <li onClick={this.sortArrayToDo} className='list_filter__item'>
+                  <img src={priority_mark} width='20' height='20' />
+                    По приоритету
+                    </li>
+                  <li onClick={this.sortArrayToDo}   className='list_filter__item'>
+                    <svg fill='#FF3300'  width="24" height="24" xmlns="http://www.w3.org/2000/svg" >
+                    <path d="M8.625 0c.61 7.189-5.625 9.664-5.625 15.996 0 4.301 3.069 7.972 9 8.004 5.931.032 
+                    9-4.414 9-8.956 0-4.141-2.062-8.046-5.952-10.474.924 2.607-.306 4.988-1.501 
+                    5.808.07-3.337-1.125-8.289-4.922-10.378zm4.711 13c3.755 3.989 1.449 9-1.567 9-1.835 
+                    0-2.779-1.265-2.769-2.577.019-2.433 2.737-2.435 4.336-6.423z"/>
+                  </svg>
+                  <span>
+                  Высокий приоритет
+                  </span>
+                    </li>
+                  <li onClick={this.sortArrayToDo}  className='list_filter__item'>
+                  <svg fill='#FF6600'  width="24" height="24" xmlns="http://www.w3.org/2000/svg" >
+                    <path d="M8.625 0c.61 7.189-5.625 9.664-5.625 15.996 0 4.301 3.069 7.972 9 8.004 5.931.032 
+                    9-4.414 9-8.956 0-4.141-2.062-8.046-5.952-10.474.924 2.607-.306 4.988-1.501 
+                    5.808.07-3.337-1.125-8.289-4.922-10.378zm4.711 13c3.755 3.989 1.449 9-1.567 9-1.835 
+                    0-2.779-1.265-2.769-2.577.019-2.433 2.737-2.435 4.336-6.423z"/>
+                  </svg>
+                  <span>Средний приоритет</span>
+                    
+                    </li>
+                  <li onClick={this.sortArrayToDo}  className='list_filter__item'>
+                  <svg fill='#FFCC00'  width="24" height="24" xmlns="http://www.w3.org/2000/svg" >
+                    <path d="M8.625 0c.61 7.189-5.625 9.664-5.625 15.996 0 4.301 3.069 7.972 9 8.004 5.931.032 
+                    9-4.414 9-8.956 0-4.141-2.062-8.046-5.952-10.474.924 2.607-.306 4.988-1.501 
+                    5.808.07-3.337-1.125-8.289-4.922-10.378zm4.711 13c3.755 3.989 1.449 9-1.567 9-1.835 
+                    0-2.779-1.265-2.769-2.577.019-2.433 2.737-2.435 4.336-6.423z"/>
+                  </svg>
+                  <span>
+                  Низкий приоритет
+                  </span>
+                    
+                    </li>
+                  <li onClick={this.sortArrayToDo}  className='list_filter__item'>
+                  <img width='20' height='20' src={time_mark}></img>
+                  <span>Отложенные</span>
+                    
+                    </li>
+                  <li onClick={this.sortArrayToDo}  className='list_filter__item'>
+                  <img width='20' height='20' src={accept_mark}></img>
+                  <span>Выполненные</span>
+                    
+                    </li>
+                </ul>
+            </div>
+          </div>
+        </div>
         <ToDoList
           array = {arraySort}
           openOptions = {this.props.openOptions}
@@ -335,104 +448,8 @@ class Windows extends React.Component {
         />
         <Options
           array = {arraySort}
-          
         />
-        {/* <div className='options'>
-          <div className='name_todo'>{(arrayToDo.length > 0) ? arrayToDo[number].name_todo : 'У вас нету дела'}</div>
-          <div className='options_div'>
-            <div className='block_term'>
-              <div id='type_ToDo'> <span>тип:</span>
-                <div className="container">
-
-                  <div className="dropdown">
-                    <div className="select">
-                      <span id='select_type'>{(arrayToDo.length > 0) ? arrayToDo[number].type : 'Выберите тип '}</span>
-                      <i className="fa fa-chevron-left"></i>
-                    </div>
-                    <ul className="dropdown-menu" id='type' onClick={this.select_type}>
-                      <li  >Личное</li>
-                      <li  >Работа</li>
-                      <li >Дом</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div id='type_ToDo'> <span>срок:</span>
-                <div className="container">
-                  <div className="dropdown">
-                    <div className="select">
-                      <span >{(arrayToDo.length > 0) ? arrayToDo[number].term : 'Выберите срок'}</span>
-                      <i className="fa fa-chevron-left"></i>
-                    </div>
-                    <ul className="dropdown-menu" id='term' onClick={this.select_type}>
-                      <li >Сегодня</li>
-                      <li >Завтра</li>
-                      <li >Послезатра</li>
-                      <li >3 дня</li>
-                      <li >4 дня</li>
-                      <li >5 дней</li>
-                      <li >6 дней</li>
-                      <li >7 дней</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div id='type_ToDo'> <span>продолжительность:</span>
-                <div className="container">
-
-                  <div className="dropdown">
-                    <div className="select">
-                      <span id='select_type'>{(arrayToDo.length > 0) ? arrayToDo[number].duration : 'Выберите продолжительность'}</span>
-                      <i className="fa fa-chevron-left"></i>
-                    </div>
-                    <ul className="dropdown-menu" id='duration' onClick={this.select_type}>
-                      <li  >10 мин</li>
-                      <li  >20 мин</li>
-                      <li >30 мин</li>
-                      <li >40 мин</li>
-                      <li >50 мин</li>
-                      <li >60 мин</li>
-                    </ul>
-                  </div>
-                </div>
-
-              </div>
-              <div className='block_notes'>
-                <div>Заметки</div>
-
-                <div className="contact-form__input-wrapper">
-                  <textarea id="text_area" rows="2" className="contact-form__input contact-form__text"
-                    name="text" onKeyUp={this.textarea_note} onChange={this.inputNote} placeholder="Введите ваше сообщение"></textarea>
-                  <div id="text_area_div"></div>
-                </div>
-                <button id='button' className='button' onClick={this.add_note} >Отправить</button>
-                <div id='div_note'>
-                  <ul className='ul_note_item'>
-                    {(arrayToDo[number].haveNote) ? array_notes.map((elem, key) => <li key={key} id='note_item' ><div>{elem.text}</div><span id=''>{elem.time_note}</span></li>) : ''}
-                  </ul>
-                </div>
-
-              </div>
-              <div className='subtasks_div'><div className='name_subtasks'>Подзадачи</div>
-                <input placeholder='Какое дело?' onClick={this.inputSubtask} onChange={this.changeText} autoComplete='off' required id='input_subtasks'></input>
-                <div id='menu_down'>
-                  <div id='down_div'>
-                    <div id='col_left'><br /></div>
-                    <button id='button' className='button' onClick={this.add_subtask} >Отправить</button>
-                  </div>
-                </div>
-                <div >
-                  <ul className='ul_subtask_item'>
-                    {(arrayToDo[number].haveSubtask) ? array_subtask.map((elem, key) => <li key={key} id='subtask_item' >{elem.text}<span>{elem.time}</span></li>) : ''}
-                  </ul>
-                </div>
-
-
-              </div>
-
-            </div>
-          </div>
-        </div> */}
+       
       </div>
     );
   }
@@ -443,14 +460,18 @@ function mapStateToProps(state,store, getState) {
   return {
     colors: state.array_case,
     number: state.select_case,
-    type_sort: state.sort
+    type_sort: state.sort,
+    list_access: state.List_access
+
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addNewCase: elemToDo => dispatch(add_case(elemToDo)),
-    selectedCase: numberCase => dispatch(selected_case(numberCase))
+    sort: (array, type_sort) => dispatch(sort_case(array,type_sort)),
+    selectedCase: numberCase => dispatch(selected_case(numberCase)),
+    
   };
 }
 

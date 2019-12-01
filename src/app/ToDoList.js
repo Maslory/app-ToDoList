@@ -4,7 +4,8 @@ import ToDoTitle from "./ToDoTitle";
 import ContentInfo from "./ContentInfo";
 import CaseSettings from "./CaseSettings";
 import { connect } from "react-redux";
-import {selected_case, add_case} from "./actions/actions"
+import {selected_case, add_case, selectItem} from "./actions/actions"
+
 
 const ToDoList = (props) => {
   // let arrayToDo = props.arrayToDo;
@@ -22,7 +23,7 @@ const ToDoList = (props) => {
     // props.openOptions(e.target.closest("LI").getAttribute("key2"));
     // alert('closest LI key2 = ' + e.target.closest("LI").getAttribute("key2") )
     props.selectedCase(e.target.closest("LI").getAttribute("key2"))
-    
+    props.selectItem(e.target.closest("LI").getAttribute("id"))
   };
 
   const clickButton = e => {
@@ -39,7 +40,7 @@ const ToDoList = (props) => {
     <ul className="ul">
        {
          list.map((elem, key) => (
-        <li className="li" key2={key} onClick={showOptions}>
+        <li className="li" id={elem.id} key2={key} onClick={showOptions}>
           
           <ToDoTitle
             key3={key}
@@ -69,14 +70,16 @@ function mapStateToProps(state,store, getState) {
   return {
     colors: state.array_case,
     OptionsNumber: state.select_case,
-    sort: state.sort
+    sort: state.sort,
+    selectItemId: state.select_item
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addNewCase: elemToDo => dispatch(add_case(elemToDo)),
-    selectedCase: numberCase => dispatch(selected_case(numberCase))
+    selectedCase: numberCase => dispatch(selected_case(numberCase)),
+    selectItem: id => dispatch(selectItem(id))
   };
 }
 

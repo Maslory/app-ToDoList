@@ -2,9 +2,6 @@ import React from 'react';
 import '../style/style.sass';
 import Buttons from './buttons'
 import Windows from './windows'
-// import logo_krest from '../img/krest.png'
-// import logClockTime from './time/timer'
-// import startTicking from './time/timer'
 import { connect } from "react-redux";
 
 class App extends React.Component {
@@ -38,6 +35,7 @@ class App extends React.Component {
         this.setPriority = this.setPriority.bind(this)
         this.accept_list = this.accept_list.bind(this)
         this.sort_todo = this.sort_todo.bind(this)
+        this.appHeight = this.appHeight.bind(this)
     }
 
     sort_todo(arr,sort_number){
@@ -181,6 +179,13 @@ changeSubtasks(OptionsNumber, text_subtask, time){
         }
 
 
+    appHeight(){
+        let App = document.getElementById('app')
+        console.log(App.style.height)
+        App.style.height = 937 + 'px'
+        App.childNodes[1].style.height = window.height +  'px'
+        
+    }
     
 
     componentDidUpdate() {
@@ -196,7 +201,7 @@ changeSubtasks(OptionsNumber, text_subtask, time){
         
         
         return (
-            <div className="App"  >
+            <div className="App" id='app' onLoad={this.appHeight} >
                 <Buttons 
                 toDoList={this.state.toDoList} onClickDoAdd={this.changeDoA} arrayToDo={this.state.arrayToDo} Sort_list={this.state.Sort_list} sort_todo={this.sort_todo} 
                 />
@@ -204,7 +209,6 @@ changeSubtasks(OptionsNumber, text_subtask, time){
                 changeNote={this.changeNote} deleteToDo = {this.deleteToDo} setPriority = {this.setPriority} accept_list = {this.accept_list} Sort_list={this.state.Sort_list}
                  onClickDoDelete={this.changeDoD} arrayToDo={this.state.arrayToDo} OptionsNumber={this.state.OptionsNumber} openOptions={this.openOptions} 
                  />
-             <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
             </div>
         );
     }

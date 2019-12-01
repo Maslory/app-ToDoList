@@ -1,6 +1,6 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux'
 import initialState from './InitialState'
-import {array_case, todo_case, select_case, List_access, sort} from '../reducers/reducers'
+import {array_case, todo_case, select_case, List_access, sort, select_item} from '../reducers/reducers'
 
 const logger = store => next => action => {
     let result
@@ -20,7 +20,7 @@ const saver = store => next => action => {
 
 export const storeFactory = (state = initialState) =>
     applyMiddleware(logger, saver)(createStore)(
-        combineReducers({array_case, todo_case, select_case, List_access, sort}),
+        combineReducers({array_case, todo_case, select_case, List_access, sort, select_item}),
         state
     )
 

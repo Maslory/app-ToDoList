@@ -13,17 +13,38 @@ import { v4 } from 'uuid'
 const Options = (props) => {
     let arrayToDo = props.array
     let number = props.OptionsNumber;
-    let note_text = ''
+    let note_text = '';
+    let selectItemId = props.selectItemId;
+
+    const selectItem = () =>{
+      let item = -1;
+      let array = props.colors;
+      function logArrayElements(element, index, array) {
+       if (element.id == selectItemId){
+        item = index;
+       }
+      }
+      array.forEach(logArrayElements);
+      props.selectedCase(item)
+      return item
+      // if(thisItem == -1){
+      //   alert("не нашел")
+      //   return 'не нашёл'
+      // }
+      // else{
+      //   return thisItem
+      // }
+      // console.log(thisItem[0]);
+      // (thisItem.length == 0) ?
+      //   item = -1
+      //   : item = thisItem[0]
+      
+    }
 
     const select_type = (event) => {
-        
-
-
         let count = number 
         let type_select = event.target.textContent
         let selected_row = event.target.parentNode.id
-     
-        console.log(count, type_select, selected_row)
         let list = [...arrayToDo]
         if(selected_row == 'type'){
             props.settings_case( arrayToDo[number].id, type_select, arrayToDo[number].term, arrayToDo[number].duration)
@@ -41,8 +62,6 @@ const Options = (props) => {
       $(this1).attr('tabindex', 1).focus();
       $(this1).toggleClass('active');
       $(this1).find('.dropdown-menu').slideToggle(300);
-    
-  
       }
 
       useEffect(() => {
@@ -59,7 +78,6 @@ const Options = (props) => {
       const textarea_note = (event) => {
         let min_line_count = 2
         let line_height = 15
-        console.log(event.target.scrollTop)
         if (event.target.scrollTop > 0) {
           event.target.style.height = event.target.scrollHeight + "px";
         }
@@ -77,7 +95,7 @@ const Options = (props) => {
     
       const inputNote = (event) => {
         note_text = event.target.value
-        console.log(note_text)
+
       }
     
       const add_note = (event) => {
@@ -118,7 +136,7 @@ const Options = (props) => {
    
           // if(array_type.textContent == "Подзадачи"){
             
-            console.log(array_type.getAttribute('namecomponent'))
+
           if(array_type.getAttribute('namecomponent') == 'Заметки'){
             let array_notes = [...arrayToDo[number].notes]
             let deleteElem = array_notes.filter(
@@ -149,7 +167,9 @@ const Options = (props) => {
 
     return (
         <div className='options'>
-          <div className='name_todo'>{(props.OptionsNumber > -1) ? arrayToDo[number].name_todo : 'У вас нету дела'}</div>
+          
+          <div className='name_todo'>{(props.OptionsNumber > -1) ? arrayToDo[number].name_todo  : 'Настройки'}</div>
+          {(props.OptionsNumber > -1)?
           <div className='options_div'>
             <div className='block_term'>
               <div id='type_ToDo'> <span>тип:</span>
@@ -205,7 +225,7 @@ const Options = (props) => {
                   </div>
                 </div>
               </div>
-              {(props.OptionsNumber > -1)?
+              {/* {(props.OptionsNumber > -1)? */}
               <BlockNotes
               nameComponent = {'Заметки'}
               array = {arrayToDo[number].notes}
@@ -215,9 +235,9 @@ const Options = (props) => {
               add_note = {add_note}
               deleteNote = {delete_note}
            />
-           : "Нету дела"
+            {/* : ""
             }
-             {(props.OptionsNumber > -1)?
+             {(props.OptionsNumber > -1)? */}
               <BlockNotes
               nameComponent = {'Подзадачи'}
               array = {arrayToDo[number].subtasks}
@@ -227,39 +247,11 @@ const Options = (props) => {
               add_note = {add_note}
               deleteNote = {delete_note}
            />
-           : "Нету дела"
-            }
-              
-              {/* <div className='block_notes'>
-                <div>Заметки</div>
-                <div className="contact-form__input-wrapper">
-                  <textarea id="text_area" rows="2" className="contact-form__input contact-form__text"
-                    name="text" onKeyUp={textarea_note} onChange={inputNote} placeholder="Введите ваше сообщение"></textarea>
-                  <div id="text_area_div"></div>
-                </div>
-                <button id='button' className='button' onClick={add_note} >Отправить</button>
-                <div id='div_note'>
-                  <ul className='ul_note_item'>
-                    {(arrayToDo[number].haveNote) ? array_notes.map((elem, key) => <li key={key} id='note_item' ><div>{elem.text}</div><span id=''>{elem.time_note}</span></li>) : ''}
-                  </ul>
-                </div>
-              </div>
-              <div className='subtasks_div'><div className='name_subtasks'>Подзадачи</div>
-                <input placeholder='Какое дело?' onClick={inputSubtask} onChange={changeText} autoComplete='off' required id='input_subtasks'></input>
-                <div id='menu_down'>
-                  <div id='down_div'>
-                    <div id='col_left'><br /></div>
-                    <button id='button' className='button' onClick={add_subtask} >Отправить</button>
-                  </div>
-                </div>
-                <div >
-                  <ul className='ul_subtask_item'>
-                    {(arrayToDo[number].haveSubtask) ? array_subtask.map((elem, key) => <li key={key} id='subtask_item' >{elem.text}<span>{elem.time}</span></li>) : ''}
-                  </ul>
-                </div>
-              </div> */}
+            {/* : ""
+            } */}
             </div>
           </div>
+          : ''}
         </div>
     )
 }
@@ -268,7 +260,8 @@ function mapStateToProps(state,store, getState) {
     return {
       colors: state.array_case,
       OptionsNumber: state.select_case,
-      sort: state.sort
+      sort: state.sort,
+      selectItemId: state.select_item
     };
   }
   
