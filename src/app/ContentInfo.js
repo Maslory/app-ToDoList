@@ -20,7 +20,6 @@ const ContentInfo = (props) => {
       let deleteElem = array_notes.filter(
         elem => elem.id !== subtaskId
       )
-      console.log(deleteElem)
       changeArray(props.colors[key].id, deleteElem)
   }
 
@@ -32,7 +31,6 @@ const ContentInfo = (props) => {
   function  acceptItem (event) {
     let target = event.target
     let parent = target.parentNode
-    console.log(accept_mark)
     // fdb9d6ee0a156ec36282b4412ca281c0.svg
     if(target.src == 'http://localhost:7700/b803f472592f61e17a1b546e861f627f.svg'){
       target.src = update_task
@@ -46,7 +44,6 @@ const ContentInfo = (props) => {
 
   }
 
-  // console.log(props)
   return (
     <div className="left_side"  onClick={stop}>
       <ul>

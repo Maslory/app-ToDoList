@@ -9,21 +9,10 @@ import selectedItem from './selectedItem'
 
 
 const ToDoList = (props) => {
-  // let arrayToDo = props.arrayToDo;
-  // console.log(props.colors)
   let list = props.array
-  
-  
-  // if (props.sort == 2) {
-  //   arrayToDo = arrayToDo.sort((a, b) => a.priority - b.priority);
-  // }
   const OptionsNumber = props.OptionsNumber;
-  // const array_subtask = arrayToDo[OptionsNumber].subtasks;
-  // const array_notes = arrayToDo[OptionsNumber].notes;
 
   const showOptions = e => {
-    // props.openOptions(e.target.closest("LI").getAttribute("key2"));
-    // alert('closest LI key2 = ' + e.target.closest("LI").getAttribute("key2") )
     props.selectedCase(e.target.closest("LI").getAttribute("elemnumber"))
     props.selectItem(e.target.closest("LI").getAttribute("id"))
   };
@@ -46,16 +35,10 @@ const ToDoList = (props) => {
       )
       props.changeNote(arrayToDo[number].id, deleteElem)
     }
-
   }
-  
-  
-    
-  
   
   return (
     <ul className="ul">
-     
        {
          list.map((elem, key) => (
         <li className="li" id={elem.id} key={elem.id} elemnumber={key} onClick={showOptions}>

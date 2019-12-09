@@ -23,7 +23,6 @@ const BlockNotes = (props) => {
     const textarea_note = (event) => {
       let min_line_count = 2
       let line_height = 15
-      console.log(event.target.scrollTop)
       if (event.target.scrollTop > 0) {
         event.target.style.height = event.target.scrollHeight + "px";
       }
@@ -38,29 +37,6 @@ const BlockNotes = (props) => {
         obj_height = min_line_height;
       obj.style.height = obj_height + 30 + 'px';
     }
-
-    // const inputNote = (event) => {
-    //   note_text = event.target.value
-    //   console.log(note_text)
-    // }
-  
-    // const add_note = () => {
-    //   if (note_text.length > 0) {
-        
-    //     let time = logClockTime()
-    //     let text_area = document.getElementById('text_area')
-        
-    //     text_area.value = ''
-    //     let array_notes = [...arrayToDo[number].notes]
-    //     alert(note_text, time)
-        
-    //     array_notes.push({text: note_text, time: time})
-    //     props.change_notes(arrayToDo[number].id, array_notes)
-    //     note_text = ''
-  
-    //   }
-    // }
-
 
     return(
         <div className='block_notes'>

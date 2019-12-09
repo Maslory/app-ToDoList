@@ -3,11 +3,10 @@ import { get } from 'http'
 
 
 const initialState = {
-    toDoList: 0,
+
     array_case: [
         {
             id: v4(),
-            toDoList: 0,
             name_todo: 'Помыть посуду',
             subtasks:[],
             term:'Когда?',
@@ -17,15 +16,12 @@ const initialState = {
             haveNote: false, 
             priority: 2, 
             day_of_number: 0, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-            OptionsNumber: 0,
             List_access: [],
-            Sort_list: [],
             todo_type: "Выберите тип",   // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
             date: new Date()
         },
         // {
         //     id: v4(),
-        //     toDoList: 0,
         //     name_todo: 'второй',
         //     subtasks:[],
         //     term:'Когда?',
@@ -35,18 +31,13 @@ const initialState = {
         //     haveNote: false, 
         //     priority: 2, 
         //     day_of_number: 0, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-        //     OptionsNumber: 0,
         //     List_access: [],
-        //     Sort_list: [],
         //     todo_type: "Тип",   // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
         // },
     ], // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-    OptionsNumber: 0,
-    selectItem: -1,
     List_access: [],
-    Sort_list: [],
     overdue: [],
-    sort: 1    // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
+    sort: 1, // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце   
 }
 
 export default initialState

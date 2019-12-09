@@ -1,71 +1,29 @@
 import React from 'react';
 import '../style/style.sass';
-import logo_krest from '../img/krest.png'
 import arrow_up from '../img/arrow_up.svg'
 import arrow_down from '../img/arrow_down.svg'
-import $ from 'jquery';
-import startTicking from './time/timer';
-import logClockTime from './'
-import setTime from './time/timer';
-import access_list from '../img/access_list.svg'
-import delete_list from '../img/delete_list.svg'
-import list_noname from '../img/list_noname.svg'
-import list_priority from '../img/list_priority.svg'
-import list_defer from '../img/list_defer.svg'
 import ToDoList from './ToDoList'
-import CaseSettings from './CaseSettings';
 import {connect} from "react-redux"
 import Options from './Options';
-import plus from '../img/plus_thin.svg'
 import shevron_right from '../img/arrow_right.svg'
 import accept_mark from '../img/priority/accept_mark.svg'
 import time_mark from '../img/priority/time_mark.svg'
 import date_mark from '../img/priority/date_mark.svg'
 import priority_mark from '../img/priority/priority_mark.svg'
 import {sort_case, complete_case, selected_case, change_overdue} from './actions/actions';
-import timeout from '../img/priority/timeout.svg'
-
-let dragObject = {};
-let toDoListDo = 0;
-let FixedList = 0;
-let Fixed = [];
-
-let inputText = ''
-
-let list 
 
 class Windows extends React.Component {
   constructor(props) {
     super(props);
-    this.fixState = this.fixState.bind(this);
-    this.closeDO = this.closeDO.bind(this)
     this.showDo = this.showDo.bind(this)
-    this.showOptions = this.showOptions.bind(this)
-    this.changeName = this.changeName.bind(this)
-    this.select_type = this.select_type.bind(this)
     this.inputSubtask = this.inputSubtask.bind(this)
-    this.add_subtask = this.add_subtask.bind(this)
-    this.add_note = this.add_note.bind(this)
     this.inputNote = this.inputNote.bind(this)
     this.changeText = this.changeText.bind(this)
     this.textarea_note = this.textarea_note.bind(this)
-    this.deleteList = this.deleteList.bind(this)
-    this.select_priority = this.select_priority.bind(this)
-    this.access_list = this.access_list.bind(this)
-    this.task_click = this.task_click.bind(this)
-    this.sort = this.sort.bind(this)
     this.showFilters = this.showFilters.bind(this)
     this.sortArrayToDo = this.sortArrayToDo.bind(this)
-    this.props.arrayToDo
-    this.props.toDoList
-
-   
-    this.props.OptionsNumber
-    this.props.Sort_list
     this.substask_text = ''
     this.note_text = ''
-    
-    // this.createToDo = this.createToDo.bind(this)
   }
 
 
@@ -98,7 +56,6 @@ class Windows extends React.Component {
           this.props.selectedCase(0)
         }
         this.props.selectedCase(-1)
-        console.log(this.props.list_access)
         this.props.sort(this.props.list_access, 3)
       }
       else if(event.currentTarget.textContent == 'Высокий приоритет'){
@@ -158,9 +115,6 @@ class Windows extends React.Component {
         this.props.sort(sort_array , 8)
       }
       else if(event.currentTarget.textContent == 'Следующие 7 дней'){
-        // alert(date_week)
-        // alert(date_month)
-        // alert(date_now.getDate())
         let sort_array = list.filter(elem =>  (elem.date.getMonth() == date_month) && ( (date_week > elem.date.getDate()) && (elem.date.getDate() > date_now.getDate())) )
         if(sort_array.length == 0) {
           this.props.selectedCase(-1)
@@ -170,90 +124,11 @@ class Windows extends React.Component {
         }
         this.props.sort(sort_array , 9)
       }
-     
-      // else if(event.currentTarget.textContent == 'Просроченные'){
-      //   let newTimeArray = [...this.props.colors]
-      // let date = new Date();
-      // let arrayOverdue = [...this.props.overdueItems]
-      // console.log("Изначальный массив: ", newTimeArray)
-      // console.log("Сегодняшний день: ", date_now.getDate(), ' год: ', date_now.getYear()
-      // , '/n месяц: ', date_now.getMonth())
-      // console.log("Сегодняшний день: ", newTimeArray[0].date.getDate(), ' год: ', newTimeArray[0].date.getYear()
-      // , '/n месяц: ',  newTimeArray[0].date.getMonth())
-      // let filterArray = newTimeArray.filter((elem) => elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() <= date_now.getMonth() )
-      // let filterArray = newTimeArray.map((elem) =>{
-      //   if(elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() < date_now.getMonth()){
-
-      //   }
-      //   if(elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() <= date_now.getMonth())
-      // })
-      // && 
-      //   (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth()))
-     
-      // newTimeArray.filter((elem) => (elem.date.getDate() < date_now.getDate()) && 
-      // (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth()))
-      //   if(newTimeArray.length == 0) {
-      //     this.props.selectedCase(-1)
-      //   }
-      //   else{
-      //     this.props.selectedCase(0)
-      //   }
-      //   console.log(newTimeArray)
-      //   console.log(newTimeArray.filter((elem) => (elem.date.getDate() < date_now.getDate()) && 
-      //   (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth())))
-      //   arrayOverdue = arrayOverdue.concat(array_filter)
-      //   console.log(arrayOverdue)
-      //   this.props.sort(newTimeArray , 8)
-      // }
-
   }
-
-  task_click(event) {
-    let item = event.target
-    let this_item = item.parentNode
-    let key = item.getAttribute('key7')
-    let day = item.parentNode.childNodes[1].value
-    let priority
-    if (day > 0) {
-      priority = 4
-    }
-    else {
-      priority = 2
-    }
-    this.props.setPriority(priority, key, day)
-    item.parentNode.childNodes[1].value = ''
-    this_item.style.display = (this_item.style.display == 'block') ? this_item.style.display = 'none' : this_item.style.display = 'block'
-  }
-
-  access_list(event) {
-    let key = event.target.getAttribute('key5')
-    event.stopPropagation()
-    this.props.accept_list(key)
-
-  }
-
-  select_priority(event) {
-    let item = event.target
-    let key = event.target.parentNode.getAttribute('key4')
-    if (item.textContent == 'Задать высокий приоритет') {
-      this.props.setPriority(1, key)
-    }
-    else if (item.textContent == 'Задать средний приоритет') {
-      this.props.setPriority(2, key)
-    }
-    else if (item.textContent == 'Задать низкий приоритет') {
-      this.props.setPriority(3, key)
-    }
-    item.parentNode.parentNode.style.display = 'none'
-    event.stopPropagation()
-  }
-
- 
 
   textarea_note(event) {
     let min_line_count = 2
     let line_height = 15
-    console.log(event.target.scrollTop)
     if (event.target.scrollTop > 0) {
       event.target.style.height = event.target.scrollHeight + "px";
     }
@@ -271,114 +146,17 @@ class Windows extends React.Component {
 
   changeText(event) {
     this.substask_text = event.target.value
-    console.log(this.substask_text)
   }
 
-  add_note() {
-    if (this.note_text.length > 0) {
-      let time = logClockTime() + ''
-      let text_area = document.getElementById('text_area')
-      text_area.value = ''
-      this.props.changeNote(this.props.OptionsNumber, this.note_text, time)
-      this.note_text = ''
 
-    }
-  }
   inputNote(event) {
-
     this.note_text = event.target.value
-    console.log(this.note_text)
-  }
-
-  add_subtask() {
-    if (this.substask_text.length > 0) {
-      let time = new Date()
-      let input_subtasks = document.getElementById('input_subtasks')
-      let down_div = document.getElementById('down_div')
-      down_div.classList.toggle('hidden');
-      input_subtasks.value = ''
-      this.props.changeSubtasks(this.props.OptionsNumber, this.substask_text, time)
-      this.substask_text = ''
-    }
   }
 
   inputSubtask() {
     let down_div = document.getElementById('down_div')
     down_div.classList.remove('hidden');
   }
-
-  select_type(event) {
-    this.props.changeType(this.props.OptionsNumber, event.target.textContent, event.target.parentNode.id)
-  }
-
-  changeName(e) {
-    this.props.changeNameDo(event.target.getAttribute('key3'), e.target.value)
-  }
-
-
-
-  showOptions(e) {
-    this.props.openOptions(e.target.closest('LI').getAttribute('key2'))
-
-  }
-
-  closeDO(e) {
-    this.props.onClickDoDelete(e.target.getAttribute('key1'))
-
-  }
-
-  fixState() {
-    const toDoList = this.props.toDoList;
-    if (FixedList < toDoList) {
-      this.props.onClickDoDelete();
-      // console.log(FixedList);
-    }
-  }
-
-  componentDidUpdate() {
-    const toDoList = this.props.toDoList;
-    toDoListDo += 1;
-    for (let i = 0; i < Fixed.length; i++) {
-      if (toDoList == i && Fixed[i] == false) {
-        Fixed[i] = true;
-        createDo();
-        if (toDoList < toDoListDo) {
-          Fixed[i] = false;
-        }
-      }
-    };
-
-
-
-    function createDo() {
-      const coordinates = document.getElementById('coordinates');
-      const button1 = document.createElement('button');
-      // СОЗДАНИЕ ШАБЛОНА ЭЛЕМЕНТА ДЕЛ
-      const div = document.createElement('div');
-      div.className = 'windows';
-      div.id = 'windows';
-      div.style.position = 'absolute';
-      const header = document.createElement('header');
-      button1.id = 'closeWindow';
-      button1.className = 'closeWindow';
-      div.className = 'draggable';
-      header.id = 'elementMove';
-      const input = document.createElement("textarea");
-      input.className = 'textBox';
-      input.placeholder = 'Ну что... Какие дела?';
-
-      FixedList = toDoList;
-      button1.onclick = function (e) {
-        const qw = e.target.parentNode;
-        toDoListDo += 1;
-        FixedList -= 1;
-        
-      }
-    }
-  }
-
-
-
 
   showDo(event) {
     let visibleToDo = document.getElementById('visibleToDo')
@@ -389,10 +167,7 @@ class Windows extends React.Component {
     this_item.style.display = (parentItem.src == 'http://localhost:7700/' + arrow_up) ? this_item.style.display = 'none' : this_item.style.display = 'flex'
   }
 
-  deleteList(event) {
-    event.stopPropagation()
-    this.props.deleteToDo(event.target.getAttribute('key6'))
-  }
+  
   sort(){
     if(this.props.type_sort == 2){
       let newSortArray = [... this.props.colors]
@@ -457,18 +232,11 @@ class Windows extends React.Component {
   }
 
   render() {
-    const Sort_list = this.props.Sort_list
-    let arrayToDo = this.props.colors
-
-    const toDoList = this.props.toDoList
     const number = this.props.number
     let arraySort = this.sort()
     
-    console.log('111', arraySort)
-    
     return (
       <div className='mainWindow' id='coordinates'>
-        {console.log(this.props.list_access)}
         <div className="left_menu">
             <div className="left_menu__right_side">
               <ul  className='top_filters'>
@@ -545,8 +313,6 @@ class Windows extends React.Component {
         </div>
         <ToDoList
           array = {arraySort}
-          openOptions = {this.props.openOptions}
-         
         />
         <Options
           array = {arraySort}

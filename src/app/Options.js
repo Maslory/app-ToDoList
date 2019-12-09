@@ -18,6 +18,7 @@ const Options = (props) => {
     let selectItemId = props.selectItemId;
 
     const selectItem = () =>{
+      console.log(props.OptionsNumber)
       let item = -1;
       let array = props.colors;
       function logArrayElements(element, index, array) {
@@ -26,20 +27,8 @@ const Options = (props) => {
        }
       }
       array.forEach(logArrayElements);
+      console.log(item)
       props.selectedCase(item)
-      // return item
-      // if(thisItem == -1){
-      //   alert("не нашел")
-      //   return 'не нашёл'
-      // }
-      // else{
-      //   return thisItem
-      // }
-      // console.log(thisItem[0]);
-      // (thisItem.length == 0) ?
-      //   item = -1
-      //   : item = thisItem[0]
-      
     }
 
     const select_type = (event) => {
@@ -169,6 +158,7 @@ const Options = (props) => {
     return (
         <div className='options'>
           {selectItem()}
+          
           <div className='name_todo'>{(props.OptionsNumber > -1) ? arrayToDo[number].name_todo  : 'Настройки'}</div>
           {(props.OptionsNumber > -1)?
           <div className='options_div'>

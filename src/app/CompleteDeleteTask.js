@@ -10,7 +10,6 @@ const CompleteDeleteTask = (props) => { //common переиспользуемы�
   const onClick = props.onClick
 
 
-  console.log(key)
   return (
     <span>
       {" "}

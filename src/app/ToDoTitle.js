@@ -189,13 +189,6 @@ useEffect(() => {
 const freshness = () => {
   let newTimeArray = [...props.colors]
   let date = new Date();
-  // let arrayOverdue = [...this.props.overdueItems]
-  // console.log("Изначальный массив: ", newTimeArray)
-  // console.log("Сегодняшний день: ", date_now.getDate(), ' год: ', date_now.getYear()
-  // , '/n месяц: ', date_now.getMonth())
-  // console.log("Сегодняшний день: ", newTimeArray[0].date.getDate(), ' год: ', newTimeArray[0].date.getYear()
-  // , '/n месяц: ',  newTimeArray[0].date.getMonth())
-  // let filterArray = newTimeArray.filter((elem) => elem.date.getYear() <= date.getYear() && elem.date.getMonth() <= date.getMonth() )
   if(props.sort == 3){
     return ''
   }
@@ -218,9 +211,6 @@ function selectDate(date) {
 }
 function stopEvent(event){
   event.stopPropagation()
-  console.log(key, selectItemId)
- 
-  
 }
 
 function takeId(event){

@@ -13,7 +13,6 @@ const CaseSettings = (props) => {
   let array = props.array
   let number = props.OptionsNumber
   let elemId = props.elemId
-  console.log("ТУТ", props.storeArray ) 
   function closeDO(event) {
     event.stopPropagation()
     let numb = number - 1

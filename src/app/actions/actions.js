@@ -17,9 +17,7 @@ export const add_case = (elemToDo) =>
     haveNote: false, 
     priority: 2, 
     day_of_number: 0, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-    OptionsNumber: 2,
     List_access: [],
-    Sort_list: [],
     sort: 1    // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
 })
 

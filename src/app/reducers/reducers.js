@@ -9,13 +9,11 @@ import {connect} from "react-redux"
 export const todo_case = (state = {}, action) => {
 
     switch (action.type) {
-
         case C.SELECT_DATE:
             return (state.id !== action.id) ?
             state :
             {
                 id: state.id,
-                toDoList: state.toDoList,
                 name_todo: state.name_todo,
                 subtasks: state.subtasks,
                 term: state.term,
@@ -25,9 +23,7 @@ export const todo_case = (state = {}, action) => {
                 haveNote: state.haveNote, 
                 priority: state.priority, 
                 day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                OptionsNumber:  state.OptionsNumber,
                 List_access: state.List_access,
-                Sort_list: state.Sort_list,
                 todo_type: state.todo_type,
                 date: action.date
             }
@@ -37,7 +33,6 @@ export const todo_case = (state = {}, action) => {
                 state :
                 {  
                     id: state.id,
-                    toDoList: state.toDoList,
                     name_todo: action.name,
                     subtasks: state.subtasks,
                     term: state.term,
@@ -47,9 +42,7 @@ export const todo_case = (state = {}, action) => {
                     haveNote: state.haveNote, 
                     priority: state.priority, 
                     day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                    OptionsNumber: action.number,
                     List_access: state.List_access,
-                    Sort_list: state.Sort_list,
                     todo_type: state.todo_type,
                     date: state.date
                 } 
@@ -57,7 +50,6 @@ export const todo_case = (state = {}, action) => {
         case C.ADD_CASE:
             return {
                 id: action.id,
-                toDoList: 0,
                 name_todo: action.name_todo,
                 subtasks:[],
                 term:'Когда',
@@ -67,9 +59,7 @@ export const todo_case = (state = {}, action) => {
                 haveNote: false, 
                 priority: 2, 
                 day_of_number: 0, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                OptionsNumber: 0,
                 List_access: [],
-                Sort_list: [],
                 todo_type: "Выберите тип",
                 date: new Date()  // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
             }
@@ -79,7 +69,6 @@ export const todo_case = (state = {}, action) => {
             state :
             {  
                 id: state.id,
-                toDoList: state.toDoList,
                 name_todo: state.name_todo,
                 subtasks: state.subtasks,
                 term: state.term,
@@ -89,9 +78,7 @@ export const todo_case = (state = {}, action) => {
                 haveNote: state.haveNote, 
                 priority: action.priority, 
                 day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                OptionsNumber: state.OptionsNumber,
                 List_access: state.List_access,
-                Sort_list: state.Sort_list,
                 todo_type: state.todo_type,
                 date: state.date
             } 
@@ -101,7 +88,6 @@ export const todo_case = (state = {}, action) => {
                     state :
                         {  
                             id: state.id,
-                            toDoList: state.toDoList,
                             name_todo: state.name_todo,
                             subtasks: state.subtasks,
                             term: action.term,
@@ -111,9 +97,7 @@ export const todo_case = (state = {}, action) => {
                             haveNote: state.haveNote, 
                             priority: state.priority, 
                             day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                            OptionsNumber: state.OptionsNumber,
                             List_access: state.List_access,
-                            Sort_list: state.Sort_list,
                             todo_type: action.todo_type,
                             date: state.date
                         } 
@@ -123,7 +107,6 @@ export const todo_case = (state = {}, action) => {
                     state :
                     {  
                         id: state.id,
-                        toDoList: state.toDoList,
                         name_todo: state.name_todo,
                         subtasks: state.subtasks,
                         term: state.term,
@@ -133,9 +116,7 @@ export const todo_case = (state = {}, action) => {
                         haveNote: state.haveNote, 
                         priority: state.priority, 
                         day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                        OptionsNumber: state.OptionsNumber,
                         List_access: state.List_access,
-                        Sort_list: state.Sort_list,
                         todo_type: state.todo_type,
                         date: state.date
                     } 
@@ -145,7 +126,6 @@ export const todo_case = (state = {}, action) => {
                     state :
                     {  
                         id: state.id,
-                        toDoList: state.toDoList,
                         name_todo: state.name_todo,
                         subtasks: action.subtasks,
                         term: state.term,
@@ -155,9 +135,7 @@ export const todo_case = (state = {}, action) => {
                         haveNote: state.haveNote, 
                         priority: state.priority, 
                         day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
-                        OptionsNumber: state.OptionsNumber,
                         List_access: state.List_access,
-                        Sort_list: state.Sort_list,
                         todo_type: state.todo_type,
                         date: state.date
                     } 
@@ -227,8 +205,7 @@ export const List_access = (state = initialState.List_access, action) => {
         default:
             return state
     }
-} 
-
+}
 
 export const select_case = (state= 0, action) => {
 
@@ -240,6 +217,9 @@ export const select_case = (state= 0, action) => {
             return state
     }
 }
+
+
+
 
 export const sort = (state = 1, action) => {
     switch(action.type){
@@ -261,7 +241,7 @@ export const select_item = (state = -1, action) => {
     }
 }
 
-export const overdue_items = (state=[], action) =>{
+export const overdue = (state=[], action) =>{
     switch(action.type){
         case C.CHANGE_OVERDUE:
             return action.overdue
@@ -271,14 +251,4 @@ export const overdue_items = (state=[], action) =>{
     }
 }
 
-
-
-function mapStateToProps(state,store, getState) {
-    return {
-      colors: state,
-      OptionsNumber: state.select_case
-    };
-  }
-  
-  
-export default connect(mapStateToProps)(List_access);
+export default connect()(List_access);

@@ -15,13 +15,8 @@ const DeferTask = (props) => {
   const select_priority = (event) => {   //СДЕЛАТЬ IF ЕСЛИ УЖЕ СООТВЕСТВУЕТ ДАННОМУ ПРИОРИТЕТУ, ТОГДА ПРОПУСКАТЬ ВЫЗОВ РЕДЬЮСЕРА
     let item = event.target
     let this_item = item.parentNode.childNodes[1]
-    // alert(item.parentNode.childNodes[1].value)
-    // let key = arraynumber
-    // let day = item.parentNode.childNodes[1].value
-    // let priority
     item.parentNode.childNodes[1].childNodes[1].value = ''
     hide_element(item, this_item)
-    console.log(this_item.tagName)
   }
 
   const hide_element = (item, item_hide) => {
