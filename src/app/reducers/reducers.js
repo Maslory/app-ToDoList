@@ -5,9 +5,32 @@ import {remove_case} from "../actions/actions"
 import {getState} from "redux"
 import {connect} from "react-redux"
 
+
 export const todo_case = (state = {}, action) => {
 
     switch (action.type) {
+
+        case C.SELECT_DATE:
+            return (state.id !== action.id) ?
+            state :
+            {
+                id: state.id,
+                toDoList: state.toDoList,
+                name_todo: state.name_todo,
+                subtasks: state.subtasks,
+                term: state.term,
+                duration: state.duration,
+                notes: state.notes, 
+                haveSubtask: state.haveSubtask,
+                haveNote: state.haveNote, 
+                priority: state.priority, 
+                day_of_number: state.day_of_number, // prioritet  1 - высокий приоритет 2 - средний приоритет 3 - низкий приоритет 4 - задача отложена
+                OptionsNumber:  state.OptionsNumber,
+                List_access: state.List_access,
+                Sort_list: state.Sort_list,
+                todo_type: state.todo_type,
+                date: action.date
+            }
 
         case C.NAME_CASE: 
             return (state.id !== action.id) ? 
@@ -28,6 +51,7 @@ export const todo_case = (state = {}, action) => {
                     List_access: state.List_access,
                     Sort_list: state.Sort_list,
                     todo_type: state.todo_type,
+                    date: state.date
                 } 
             
         case C.ADD_CASE:
@@ -36,7 +60,7 @@ export const todo_case = (state = {}, action) => {
                 toDoList: 0,
                 name_todo: action.name_todo,
                 subtasks:[],
-                term:'Когда?',
+                term:'Когда',
                 duration:'Сколько?',
                 notes:[], 
                 haveSubtask: false,
@@ -46,7 +70,8 @@ export const todo_case = (state = {}, action) => {
                 OptionsNumber: 0,
                 List_access: [],
                 Sort_list: [],
-                todo_type: "Выберите тип",   // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
+                todo_type: "Выберите тип",
+                date: new Date()  // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
             }
                 
        case C.PRIORITY_CASE:
@@ -68,6 +93,7 @@ export const todo_case = (state = {}, action) => {
                 List_access: state.List_access,
                 Sort_list: state.Sort_list,
                 todo_type: state.todo_type,
+                date: state.date
             } 
 
             case C.SETTINGS_CASE:
@@ -89,6 +115,7 @@ export const todo_case = (state = {}, action) => {
                             List_access: state.List_access,
                             Sort_list: state.Sort_list,
                             todo_type: action.todo_type,
+                            date: state.date
                         } 
 
             case C.CHANGE_NOTE:
@@ -110,6 +137,7 @@ export const todo_case = (state = {}, action) => {
                         List_access: state.List_access,
                         Sort_list: state.Sort_list,
                         todo_type: state.todo_type,
+                        date: state.date
                     } 
 
             case C.CHANGE_SUBTASKS:
@@ -131,6 +159,7 @@ export const todo_case = (state = {}, action) => {
                         List_access: state.List_access,
                         Sort_list: state.Sort_list,
                         todo_type: state.todo_type,
+                        date: state.date
                     } 
 
             
@@ -175,6 +204,11 @@ export const array_case = (state = initialState.array_case, action) => {
             return state.map(
                 c => todo_case(c, action)
             )
+
+        case C.SELECT_DATE:
+                return state.map(
+                    c => todo_case(c, action)
+                )
         
 
         default:
@@ -221,6 +255,16 @@ export const select_item = (state = -1, action) => {
     switch(action.type){
         case C.SELECT_ITEM:
             return action.id
+
+        default:
+            return state
+    }
+}
+
+export const overdue_items = (state=[], action) =>{
+    switch(action.type){
+        case C.CHANGE_OVERDUE:
+            return action.overdue
 
         default:
             return state

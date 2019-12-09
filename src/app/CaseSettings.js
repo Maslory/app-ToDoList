@@ -9,9 +9,10 @@ import delete_list from '../img/delete_list.svg'
 import {remove_case,complete_case, selected_case, change_note} from "./actions/actions"
 
 const CaseSettings = (props) => {
-  let key = props.key3
+  let key = props.elemnumber
   let array = props.array
   let number = props.OptionsNumber
+  let elemId = props.elemId
   console.log("ТУТ", props.storeArray ) 
   function closeDO(event) {
     event.stopPropagation()

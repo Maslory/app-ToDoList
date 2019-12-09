@@ -1,4 +1,6 @@
 import { v4 } from 'uuid'
+import { get } from 'http'
+
 
 const initialState = {
     toDoList: 0,
@@ -19,6 +21,7 @@ const initialState = {
             List_access: [],
             Sort_list: [],
             todo_type: "Выберите тип",   // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
+            date: new Date()
         },
         // {
         //     id: v4(),
@@ -42,6 +45,7 @@ const initialState = {
     selectItem: -1,
     List_access: [],
     Sort_list: [],
+    overdue: [],
     sort: 1    // 1-по дате добавления, 2-по приоритету, отложенные задачи в самом конце
 }
 

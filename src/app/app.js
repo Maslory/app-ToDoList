@@ -4,6 +4,8 @@ import Buttons from './buttons'
 import Windows from './windows'
 import { connect } from "react-redux";
 
+
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -36,6 +38,15 @@ class App extends React.Component {
         this.accept_list = this.accept_list.bind(this)
         this.sort_todo = this.sort_todo.bind(this)
         this.appHeight = this.appHeight.bind(this)
+        this.focusout = this.focusout.bind(this)
+    }
+
+    focusout(event){
+        let foc = document.getElementsByClassName('focusout');
+    //     if(event.currentTarget.tagName == event.target.tagName){
+    //     $('.menu_dot__properties').removeClass('active');
+    //     $('.focusout').toggleClass('active');
+    // }
     }
 
     sort_todo(arr,sort_number){
@@ -181,15 +192,21 @@ changeSubtasks(OptionsNumber, text_subtask, time){
 
     appHeight(){
         let App = document.getElementById('app')
-        console.log(App.style.height)
-        App.style.height = 937 + 'px'
-        App.childNodes[1].style.height = window.height +  'px'
+        console.log(screen.height)
+        let a = screen.height - 50
+        App.style.height = document.body.clientHeight - 0.5 + 'px'
+        
         
     }
     
 
     componentDidUpdate() {
 
+
+    }
+
+    componentDidMount() {
+        // Инициализация
 
     }
 
@@ -202,6 +219,7 @@ changeSubtasks(OptionsNumber, text_subtask, time){
         
         return (
             <div className="App" id='app' onLoad={this.appHeight} >
+                 
                 <Buttons 
                 toDoList={this.state.toDoList} onClickDoAdd={this.changeDoA} arrayToDo={this.state.arrayToDo} Sort_list={this.state.Sort_list} sort_todo={this.sort_todo} 
                 />
@@ -209,6 +227,8 @@ changeSubtasks(OptionsNumber, text_subtask, time){
                 changeNote={this.changeNote} deleteToDo = {this.deleteToDo} setPriority = {this.setPriority} accept_list = {this.accept_list} Sort_list={this.state.Sort_list}
                  onClickDoDelete={this.changeDoD} arrayToDo={this.state.arrayToDo} OptionsNumber={this.state.OptionsNumber} openOptions={this.openOptions} 
                  />
+                 
+                 <div onClick={this.focusout} className='focusout'></div>
             </div>
         );
     }

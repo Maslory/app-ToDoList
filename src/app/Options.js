@@ -1,17 +1,18 @@
 import React from "react"
 import "../style/style.sass"
 import { connect } from "react-redux"
-import {settings_case, change_note, change_subtasks} from "./actions/actions"
+import {settings_case, change_note, change_subtasks, selected_case} from "./actions/actions"
 import $ from 'jquery';
 import { useEffect } from 'react';
 import BlockNotes from './BlockNotes';
 import logClockTime from "./time/timer";
 import { v4 } from 'uuid'
+
 // import logClockTime from './time/timer'
 
 
 const Options = (props) => {
-    let arrayToDo = props.array
+    let arrayToDo = props.colors
     let number = props.OptionsNumber;
     let note_text = '';
     let selectItemId = props.selectItemId;
@@ -26,7 +27,7 @@ const Options = (props) => {
       }
       array.forEach(logArrayElements);
       props.selectedCase(item)
-      return item
+      // return item
       // if(thisItem == -1){
       //   alert("не нашел")
       //   return 'не нашёл'
@@ -167,7 +168,7 @@ const Options = (props) => {
 
     return (
         <div className='options'>
-          
+          {selectItem()}
           <div className='name_todo'>{(props.OptionsNumber > -1) ? arrayToDo[number].name_todo  : 'Настройки'}</div>
           {(props.OptionsNumber > -1)?
           <div className='options_div'>
@@ -207,7 +208,7 @@ const Options = (props) => {
                   </div>
                 </div>
               </div>
-              <div id='type_ToDo'> <span>продолжительность:</span>
+              {/* <div id='type_ToDo'> <span>продолжительность:</span>
                 <div className="container">
                   <div className="dropdown" onClick={show_menu}>
                     <div className="select">
@@ -224,7 +225,7 @@ const Options = (props) => {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* {(props.OptionsNumber > -1)? */}
               <BlockNotes
               nameComponent = {'Заметки'}

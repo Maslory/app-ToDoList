@@ -22,7 +22,8 @@ import accept_mark from '../img/priority/accept_mark.svg'
 import time_mark from '../img/priority/time_mark.svg'
 import date_mark from '../img/priority/date_mark.svg'
 import priority_mark from '../img/priority/priority_mark.svg'
-import {sort_case, complete_case, selected_case} from './actions/actions';
+import {sort_case, complete_case, selected_case, change_overdue} from './actions/actions';
+import timeout from '../img/priority/timeout.svg'
 
 let dragObject = {};
 let toDoListDo = 0;
@@ -70,6 +71,9 @@ class Windows extends React.Component {
 
   sortArrayToDo(event){
       let list = [...this.props.colors]
+      let date_now = new Date()
+      let date_week = new Date().getDate() + 7
+      let date_month = new Date().getMonth()
       if(event.currentTarget.textContent == 'По приоритету'){
         let sort_array = list.sort((a,b) => a.priority - b.priority)
         if(sort_array.length == 0) {
@@ -83,6 +87,8 @@ class Windows extends React.Component {
       }
       else if(event.currentTarget.textContent == 'Дата добавления'){
         this.props.sort(list, 1)
+        
+        this.props.selectedCase(-1)
       }
       else if(event.currentTarget.textContent == 'Выполненные'){
         if(this.props.list_access.length == 0) {
@@ -91,6 +97,8 @@ class Windows extends React.Component {
         else{
           this.props.selectedCase(0)
         }
+        this.props.selectedCase(-1)
+        console.log(this.props.list_access)
         this.props.sort(this.props.list_access, 3)
       }
       else if(event.currentTarget.textContent == 'Высокий приоритет'){
@@ -133,6 +141,71 @@ class Windows extends React.Component {
         }
         this.props.sort(sort_array , 7)
       }
+      else if(event.currentTarget.textContent == 'Входящие'){
+        this.props.sort(list, 1)
+        
+        this.props.selectedCase(-1)
+      }
+      else if(event.currentTarget.textContent == 'Сегодня'){
+        
+        let sort_array = list.filter(elem => elem.date == date_now)
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 8)
+      }
+      else if(event.currentTarget.textContent == 'Следующие 7 дней'){
+        // alert(date_week)
+        // alert(date_month)
+        // alert(date_now.getDate())
+        let sort_array = list.filter(elem =>  (elem.date.getMonth() == date_month) && ( (date_week > elem.date.getDate()) && (elem.date.getDate() > date_now.getDate())) )
+        if(sort_array.length == 0) {
+          this.props.selectedCase(-1)
+        }
+        else{
+          this.props.selectedCase(0)
+        }
+        this.props.sort(sort_array , 9)
+      }
+     
+      // else if(event.currentTarget.textContent == 'Просроченные'){
+      //   let newTimeArray = [...this.props.colors]
+      // let date = new Date();
+      // let arrayOverdue = [...this.props.overdueItems]
+      // console.log("Изначальный массив: ", newTimeArray)
+      // console.log("Сегодняшний день: ", date_now.getDate(), ' год: ', date_now.getYear()
+      // , '/n месяц: ', date_now.getMonth())
+      // console.log("Сегодняшний день: ", newTimeArray[0].date.getDate(), ' год: ', newTimeArray[0].date.getYear()
+      // , '/n месяц: ',  newTimeArray[0].date.getMonth())
+      // let filterArray = newTimeArray.filter((elem) => elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() <= date_now.getMonth() )
+      // let filterArray = newTimeArray.map((elem) =>{
+      //   if(elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() < date_now.getMonth()){
+
+      //   }
+      //   if(elem.date.getYear() <= date_now.getYear() && elem.date.getMonth() <= date_now.getMonth())
+      // })
+      // && 
+      //   (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth()))
+     
+      // newTimeArray.filter((elem) => (elem.date.getDate() < date_now.getDate()) && 
+      // (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth()))
+      //   if(newTimeArray.length == 0) {
+      //     this.props.selectedCase(-1)
+      //   }
+      //   else{
+      //     this.props.selectedCase(0)
+      //   }
+      //   console.log(newTimeArray)
+      //   console.log(newTimeArray.filter((elem) => (elem.date.getDate() < date_now.getDate()) && 
+      //   (elem.date.getYear() <= date_now.getYear()) && (elem.date.getMonth <= date_now.getMonth())))
+      //   arrayOverdue = arrayOverdue.concat(array_filter)
+      //   console.log(arrayOverdue)
+      //   this.props.sort(newTimeArray , 8)
+      // }
+
   }
 
   task_click(event) {
@@ -326,7 +399,9 @@ class Windows extends React.Component {
       return newSortArray.sort((a,b) => a.priority - b.priority)
     }
     else if(this.props.type_sort == 1){
-      return this.props.colors
+      let newTimeArray = [...this.props.colors];
+      newTimeArray.sort((a, b) => a.date - b.date);
+      return newTimeArray
     } 
     else if(this.props.type_sort == 3){
       return this.props.list_access
@@ -351,6 +426,27 @@ class Windows extends React.Component {
       let sort_array = list.filter(elem => elem.priority == 4)
       return sort_array
     }
+    else if(this.props.type_sort == 8){
+      let list = [... this.props.colors]
+      let sort_array = list.filter(elem => elem.priority == 4)
+      return sort_array
+    }
+    else if(this.props.type_sort == 9){
+      let list = [... this.props.colors]
+      let date_now = new Date()
+      let date_week = new Date().getDate() + 7
+      let date_month = new Date().getMonth()
+      let sort_array = list.filter(elem => (elem.date.getYear() == date_now.getYear()) && (elem.date.getMonth() == date_month) && ( (date_week > elem.date.getDate()) && (elem.date.getDate() > date_now.getDate() - 1)) )
+      return sort_array
+    }
+    // else if(this.props.type_sort == 8){
+    //   let newTimeArray = [... this.props.colors]
+    //   let date = new Date();
+    //   newTimeArray.filter((a) => date > a.date)
+      
+    //   return newTimeArray
+      
+    // }
   }
 
   showFilters(event){
@@ -375,10 +471,10 @@ class Windows extends React.Component {
         {console.log(this.props.list_access)}
         <div className="left_menu">
             <div className="left_menu__right_side">
-              <ul className='top_filters'>
-                <li>Входящие</li>
-                <li>Сегодня</li>
-                <li>Следующие 7 дней</li>
+              <ul  className='top_filters'>
+                <li onClick={this.sortArrayToDo} >Входящие</li>
+                <li onClick={this.sortArrayToDo} >Сегодня</li>
+                <li onClick={this.sortArrayToDo} >Следующие 7 дней</li>
               </ul>
               <div className='button_filters' onClick={this.showFilters} >
                   <img src={shevron_right} id='shevron_right'  />
@@ -437,6 +533,12 @@ class Windows extends React.Component {
                   <span>Выполненные</span>
                     
                     </li>
+                    {/* <li onClick={this.sortArrayToDo}   className='list_filter__item'>
+                    <img width='20' height='20' src={timeout}></img>
+                  <span>
+                  Просроченные
+                  </span>
+                    </li> */}
                 </ul>
             </div>
           </div>
@@ -461,7 +563,8 @@ function mapStateToProps(state,store, getState) {
     colors: state.array_case,
     number: state.select_case,
     type_sort: state.sort,
-    list_access: state.List_access
+    list_access: state.List_access,
+    overdueItems: state.overdue_items
 
   };
 }
@@ -471,7 +574,7 @@ function mapDispatchToProps(dispatch) {
     addNewCase: elemToDo => dispatch(add_case(elemToDo)),
     sort: (array, type_sort) => dispatch(sort_case(array,type_sort)),
     selectedCase: numberCase => dispatch(selected_case(numberCase)),
-    
+    changeOverdue: (id, array_overdue) => dispatch(change_overdue(id, array_overdue))
   };
 }
 

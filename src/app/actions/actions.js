@@ -87,6 +87,14 @@ export const settings_case = (id, todo_type, term, duration) => (
     }
 )
 
+export const select_date = (id, date) => (
+    {
+        type: C.SELECT_DATE,
+        id: id,
+        date: date
+    }
+)
+
 export const change_note = (id, notes) => (
     {
         type: C.CHANGE_NOTE,
@@ -110,5 +118,13 @@ export const selectItem = (id) => (
     {
         type: C.SELECT_ITEM,
         id: id
+    }
+)
+
+export const change_overdue = (id, array_overdue) => (
+    {
+        type: C.CHANGE_PADEOUT,
+        id: id,
+        overdue: array_overdue
     }
 )
